@@ -9,8 +9,64 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_aplikasi/main.dart';
+import 'package:flutter_aplikasi/features/pengguna/screens/minta_bantuan_page.dart';
+import 'package:flutter_aplikasi/features/pengguna/screens/panggilan_berakhir_page.dart';
+import 'package:flutter_aplikasi/features/pengguna/screens/tampilan_call_page.dart';
 
 void main() {
+  testWidgets('ending a call opens the call-ended page', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      const MaterialApp(home: VideoCallPage()),
+    );
+
+    await tester.tap(find.text('AKHIRI PANGGILAN'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Panggilan Berakhir'), findsOneWidget);
+  });
+
+  testWidgets('rating enables finish, then home returns to request-help page', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      const MaterialApp(home: PanggilanBerakhirPage()),
+    );
+    await tester.pumpAndSettle();
+
+    ElevatedButton finishButton() => tester.widget<ElevatedButton>(
+      find.ancestor(
+        of: find.text('Selesai'),
+        matching: find.byType(ElevatedButton),
+      ),
+    );
+    ElevatedButton homeButton() => tester.widget<ElevatedButton>(
+      find.ancestor(
+        of: find.text('Kembali ke Beranda'),
+        matching: find.byType(ElevatedButton),
+      ),
+    );
+
+    expect(finishButton().onPressed, isNull);
+    expect(homeButton().onPressed, isNull);
+
+    await tester.tap(find.byIcon(Icons.star_outline_rounded).first);
+    await tester.pumpAndSettle();
+    expect(finishButton().onPressed, isNotNull);
+    expect(homeButton().onPressed, isNull);
+
+    await tester.tap(find.text('Selesai'));
+    await tester.pumpAndSettle();
+    expect(finishButton().onPressed, isNull);
+    expect(homeButton().onPressed, isNotNull);
+
+    await tester.tap(find.text('Kembali ke Beranda'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('MINTA BANTUAN'), findsOneWidget);
+  });
+
   testWidgets('login UI does not require credentials or navigate', (
     WidgetTester tester,
   ) async {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'panggilan_berakhir_page.dart';
 class VideoCallPage extends StatelessWidget {
   const VideoCallPage({super.key});
 
@@ -114,7 +114,15 @@ class VideoCallPage extends StatelessWidget {
                         width: double.infinity,
                         height: 52,
                         child: ElevatedButton(
-                          onPressed: () => Navigator.maybePop(context),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const PanggilanBerakhirPage(),
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFFE54D4D),
                             foregroundColor: Colors.white,

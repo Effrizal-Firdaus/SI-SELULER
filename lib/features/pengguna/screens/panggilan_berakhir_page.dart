@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'minta_bantuan_page.dart';
+
 class PanggilanBerakhirPage extends StatefulWidget {
   const PanggilanBerakhirPage({super.key});
 
@@ -9,6 +11,7 @@ class PanggilanBerakhirPage extends StatefulWidget {
 
 class _PanggilanBerakhirPageState extends State<PanggilanBerakhirPage> {
   int _rating = 0;
+  bool _ratingSubmitted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -148,13 +151,14 @@ class _PanggilanBerakhirPageState extends State<PanggilanBerakhirPage> {
               SizedBox(
                 height: 52,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Aksi untuk tombol selesai (misalnya kembali ke menu utama)
-                    Navigator.popUntil(context, (route) => route.isFirst);
-                  },
+                  onPressed: _rating > 0 && !_ratingSubmitted
+                      ? () => setState(() => _ratingSubmitted = true)
+                      : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF3B62F6),
+                    disabledBackgroundColor: const Color(0xFF4B5563),
                     foregroundColor: Colors.white,
+                    disabledForegroundColor: Colors.white70,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
@@ -175,12 +179,19 @@ class _PanggilanBerakhirPageState extends State<PanggilanBerakhirPage> {
               SizedBox(
                 height: 52,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.popUntil(context, (route) => route.isFirst);
-                  },
+                  onPressed: _ratingSubmitted
+                      ? () => Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: (context) => const MyHomePage(),
+                            ),
+                            (route) => false,
+                          )
+                      : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF171F2C),
+                    disabledBackgroundColor: const Color(0xFF4B5563),
                     foregroundColor: Colors.white,
+                    disabledForegroundColor: Colors.white70,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
