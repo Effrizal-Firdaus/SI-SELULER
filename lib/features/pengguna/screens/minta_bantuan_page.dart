@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'cari_relawan_page.dart' show FindingVolunteerPage;
+import 'setting_user.dart'; // Import halaman pengaturan
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -40,17 +41,29 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                   ),
-                  Container(
-                    width: 48,
-                    height: 48,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF1B2330),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.settings_outlined,
-                      color: Colors.white,
-                      size: 22,
+                  // Ikon Settings di pojok kanan atas (Bisa diklik juga)
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SettingUserPage(),
+                        ),
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(24),
+                    child: Container(
+                      width: 48,
+                      height: 48,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFF1B2330),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.settings_outlined,
+                        color: Colors.white,
+                        size: 22,
+                      ),
                     ),
                   ),
                 ],
@@ -115,9 +128,22 @@ class _MyHomePageState extends State<MyHomePage> {
         child: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
+            // --- LOGIKA NAVIGASI DIPERBARUI DI SINI ---
+            if (index == 1) {
+              // Jika tab Pengaturan diklik, gunakan pushReplacement
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SettingUserPage(),
+                ),
+              );
+            } else {
+              // Jika tab Beranda diklik, biarkan state berubah
+              setState(() {
+                _selectedIndex = index;
+              });
+            }
+            // ------------------------------------------
           },
           backgroundColor: const Color(0xFF0B1017),
           elevation: 0,
