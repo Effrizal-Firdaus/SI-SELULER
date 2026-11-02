@@ -9,7 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_aplikasi/main.dart';
+import 'package:flutter_aplikasi/features/auth/screens/halaman_akun_page.dart';
+import 'package:flutter_aplikasi/features/auth/screens/pilih_peran_page.dart';
 import 'package:flutter_aplikasi/features/pengguna/screens/minta_bantuan_page.dart';
+import 'package:flutter_aplikasi/features/pengguna/screens/menu_relawan_page.dart';
+import 'package:flutter_aplikasi/features/pengguna/screens/permintaan_bantuan_page.dart';
 import 'package:flutter_aplikasi/features/pengguna/screens/panggilan_berakhir_page.dart';
 import 'package:flutter_aplikasi/features/pengguna/screens/tampilan_call_page.dart';
 
@@ -17,9 +21,7 @@ void main() {
   testWidgets('ending a call opens the call-ended page', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(
-      const MaterialApp(home: VideoCallPage()),
-    );
+    await tester.pumpWidget(const MaterialApp(home: VideoCallPage()));
 
     await tester.tap(find.text('AKHIRI PANGGILAN'));
     await tester.pumpAndSettle();
@@ -30,9 +32,7 @@ void main() {
   testWidgets('rating enables finish, then home returns to request-help page', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(
-      const MaterialApp(home: PanggilanBerakhirPage()),
-    );
+    await tester.pumpWidget(const MaterialApp(home: PanggilanBerakhirPage()));
     await tester.pumpAndSettle();
 
     ElevatedButton finishButton() => tester.widget<ElevatedButton>(
@@ -89,5 +89,23 @@ void main() {
     expect(find.text('Buat Akun'), findsNothing);
     expect(find.text('Konfirmasi Kata Sandi'), findsNothing);
     expect(find.text('Akun belum terdaftar.'), findsNothing);
+  });
+
+  testWidgets('volunteer login opens menu, then help request', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: HalamanAkunPage(peran: PeranPengguna.inginMembantu),
+      ),
+    );
+
+    await tester.tap(find.byKey(const Key('accountSubmitButton')));
+    await tester.pumpAndSettle();
+    expect(find.byType(MenuRelawanPage), findsOneWidget);
+
+    await tester.tap(find.text('MULAI MEMBANTU'));
+    await tester.pumpAndSettle();
+    expect(find.byType(PermintaanBantuanPage), findsOneWidget);
   });
 }

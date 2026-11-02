@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'permintaan_bantuan_page.dart';
+
 class MenuRelawanPage extends StatefulWidget {
   const MenuRelawanPage({super.key});
 
@@ -204,7 +206,12 @@ class _MenuRelawanPageState extends State<MenuRelawanPage> {
           width: double.infinity,
           height: 50,
           child: ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const PermintaanBantuanPage(),
+              ),
+            ),
             icon: const Icon(Icons.volunteer_activism, color: Colors.white),
             label: const Text(
               'MULAI MEMBANTU',
