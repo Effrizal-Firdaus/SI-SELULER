@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'halaman_akun_page.dart';
 
-// Enum pengganti akun_simulasi.dart — dideklarasikan di sini
+// 1. Enum pengganti akun_simulasi.dart — dideklarasikan di sini
 enum PeranPengguna { membutuhkanBantuan, inginMembantu }
-
+// 2. Stateful widget untuk halaman pilihan peran
 class PilihPeranPage extends StatefulWidget {
   const PilihPeranPage({super.key});
 
@@ -14,17 +14,16 @@ class PilihPeranPage extends StatefulWidget {
 
 class _PilihPeranPageState extends State<PilihPeranPage> {
   PeranPengguna? _peranTerpilih;
-
+// 3. Fungsi untuk membuka halaman akun sesuai peran yang dipilih
   void _bukaAkun() {
     final peran = _peranTerpilih;
     if (peran == null) return;
-
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => HalamanAkunPage(peran: peran)),
     );
   }
-
+// 4. Build method untuk membangun UI halaman
   @override
   Widget build(BuildContext context) {
     const latar = Color(0xFF121212);
@@ -53,6 +52,8 @@ class _PilihPeranPageState extends State<PilihPeranPage> {
                 style: TextStyle(color: Colors.white70, fontSize: 17),
               ),
               const SizedBox(height: 32),
+              
+// 5. Widget untuk pilihan peran
               _PilihanPeran(
                 judul: 'Saya membutuhkan bantuan',
                 keterangan: 'Saya penyandang disabilitas netra',
